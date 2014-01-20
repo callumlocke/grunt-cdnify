@@ -1,0 +1,41 @@
+{
+  "name": "grunt-cdnify",
+  "version": "0.0.1",
+  "description": "Converts local URLs to CDN ones.",
+  "homepage": "https://github.com/callumlocke/grunt-cdnify",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/callumlocke/grunt-cdnify.git"
+  },
+  "bugs": "https://github.com/callumlocke/grunt-cdnify/issues",
+  "author": {
+    "name": "Callum Locke",
+    "url": "https://github.com/callumlocke"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt": "~0.4.2",
+    "load-grunt-tasks": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "soup": "~0.0.8"
+  }
+}
