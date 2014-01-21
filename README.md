@@ -8,7 +8,7 @@ The task looks through your specified files for URLs to modify, in the following
 * `<img src="____">`
 * `<script src="____"></script>`
 * `<link rel="stylesheet" href="____">`
-* `background-image: url(____);` in your CSS
+* `background-image: url(____);` in your CSS (including inside `<style>` tags in your HTML)
 
 See options below for how it modifies them.
 
