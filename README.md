@@ -2,14 +2,12 @@
 
 Finds URLs of static resources in your HTML and CSS, and updates them to use your CDN host.
 
-Places it looks for URLs to convert:
+Any *local* URLs found in the following places will be prefixed with your specified `base` string:
 
 * `<img src="____">`
 * `<script src="____"></script>`
 * `<link rel="stylesheet" href="____">`
 * `background-image: url(____);` in your CSS
-
-Any *local* URLs found will be prefixed with a `base` string you provide.
 
 
 ## Basic usage
