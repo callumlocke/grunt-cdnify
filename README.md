@@ -37,7 +37,7 @@ cdnify: {
 }
 ```
 
-### Choose a `rewriter`
+### `rewriter`
 For more control, you can specify a custom `rewriter` function instead. In this case, the task will search for **all** URLs (not just local ones) and run your function on each one. Your function should return the new value.
 
 Example:
