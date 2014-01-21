@@ -1,4 +1,4 @@
-# grunt-cdnify
+# grunt-cdnify [![Build Status](https://secure.travis-ci.org/callumlocke/grunt-cdnify.png?branch=master)](http://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://gemnasium.com/callumlocke/grunt-cdnify.png)](https://gemnasium.com/callumlocke/grunt-cdnify)
 
 > Searches for static resources and updates the URLs (usually to set a CDN host).
 
