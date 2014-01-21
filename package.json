@@ -36,6 +36,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "soup": "~0.0.8"
+    "soup": "~0.0.8",
+    "css-url-rewriter": "0.0.1"
   }
 }

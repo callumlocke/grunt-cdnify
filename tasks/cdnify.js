@@ -10,16 +10,7 @@
 
 var path = require('path'),
     Soup = require('soup'),
-
-    // Regex to find CSS properties that contain URLs
-    // Fiddle: http://refiddle.com/by/callum-locke/css-url-matcher
-    // Railroad: http://goo.gl/LXpk52
-    cssPropertyMatcher = /[;\s]\*?[a-zA-Z\-]+\s*\:\s*url\(\s*['"]?[^'"\)\s]+['"]?\s*\)[^;}]*/g,
-
-    // Regex to find the URLs within a CSS property value
-    // Fiddle: http://refiddle.com/by/callum-locke/match-multiple-urls-within-a-css-property-value
-    // Railroad: http://goo.gl/vQzMcg
-    urlMatcher = /url\(\s*['"]?([^)'"]+)['"]?\s*\)/g;
+    rewriteCSSURLs = require('css-url-rewriter');
 
 
 // Helper functions
@@ -43,32 +34,36 @@ function joinBaseAndPath(base, urlPath) {
   return protocol + '//' + path.normalize("" + rest + "/" + urlPath);
 }
 
-function cdnifyURL(url, options) {
-  if (isLocalPath(url))
-    return joinBaseAndPath(options.base, url);
-  return url;
-}
+// Default options
+var defaults = {
+  scripts: true,
+  stylesheets: true,
+  images: true,
+  css: true
+};
 
-function convertURLsInCSS(css, options) {
-  return css.toString().replace(cssPropertyMatcher, function(property, urlValue, offset) {
-    switch (property.split(':')[0].indexOf('behavior')) {
-      case 0:
-      case 1:
-        return property;
-    }
-    return property.replace(urlMatcher, function(urlFunc, justURL, offset) {
-      var cdnifiedURL;
-      cdnifiedURL = cdnifyURL(justURL, options);
-      return urlFunc.replace(justURL, cdnifiedURL);
-    });
-  });
-}
 
-// The task
 module.exports = function(grunt) {
   grunt.registerMultiTask('cdnify', 'Converts relative URLs to absolute ones.', function() {
 
-    var options = this.options();
+    var options = this.options(defaults);
+
+    // Establish the rewriteURL function for this task
+    var rewriteURL;
+    if (typeof options.base === 'string') {
+      rewriteURL = function (url) {
+        if (isLocalPath(url))
+          return joinBaseAndPath(options.base, url);
+        return url;
+      };
+    }
+    else if (typeof options.rewriter !== 'function') {
+      grunt.fatal('Please specify either a "base" string or a "rewriter" function in the task options.');
+      return;
+    }
+    else {
+      rewriteURL = options.rewriter;
+    }
 
     this.files.forEach(function(file) {
       var srcFile = file.src,
@@ -86,10 +81,12 @@ module.exports = function(grunt) {
       else {
         if (/.css$/.test(srcFile)) {
           // It's a CSS file.
-          // Just run it through the CSS-processing function
-          grunt.file.write(destFile, 
-            convertURLsInCSS(grunt.file.read(srcFile), options)
-          );
+          var oldCSS = grunt.file.read(srcFile),
+              newCSS = options.css ?
+                rewriteCSSURLs(oldCSS, rewriteURL) :
+                oldCSS;
+
+          grunt.file.write(destFile, newCSS);
           grunt.log.ok("Wrote CSS file: \"" + destFile + "\"");
         }
         else {
@@ -98,27 +95,26 @@ module.exports = function(grunt) {
               soup = new Soup(oldHTML);
 
           // Update image URLs
-          soup.setAttribute('img[src]', 'src', function (oldValue) {
-            return cdnifyURL(oldValue, options);
-          });
+          if (options.images)
+            soup.setAttribute('img[src]', 'src', rewriteURL);
 
           // Update stylesheet URLs
-          soup.setAttribute('link[rel=stylesheet]', 'href', function (oldValue) {
-            return cdnifyURL(oldValue, options);
-          });
+          if (options.stylesheets)
+            soup.setAttribute('link[rel=stylesheet]', 'href', rewriteURL);
 
           // Update script URLs
-          soup.setAttribute('script[src]', 'src', function (oldValue) {
-            return cdnifyURL(oldValue, options);
-          });
+          if (options.scripts)
+            soup.setAttribute('script[src]', 'src', rewriteURL);
 
           // Update the URLs in any embedded stylesheets
-          soup.setInnerHTML('style', function (css) {
-            return convertURLsInCSS(css, options);
-          });
+          if (options.css)
+            soup.setInnerHTML('style', function (css) {
+              return rewriteCSSURLs(css, rewriteURL);
+            });
 
           // Write it to disk
           grunt.file.write(destFile, soup.toString());
+          grunt.log.ok("Wrote HTML file: \"" + destFile + "\"");
         }
       }
     });
