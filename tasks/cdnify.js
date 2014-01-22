@@ -65,7 +65,7 @@ module.exports = function(grunt) {
       rewriteURL = options.rewriter;
     }
 
-    this.files.forEach(function(file) {
+    this.files.forEach(function (file) {
       var srcFile = file.src,
           destFile = file.dest;
 
