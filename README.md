@@ -1,9 +1,9 @@
 # grunt-cdnify [![Build Status](https://secure.travis-ci.org/callumlocke/grunt-cdnify.png?branch=master)](http://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://gemnasium.com/callumlocke/grunt-cdnify.png)](https://gemnasium.com/callumlocke/grunt-cdnify)
 
-> Searches for static resources and updates the URLs (usually to set a CDN host).
+> Grunt plugin for rewriting static resource URLs found in your HTML and CSS.
 
 ## What it does
-The task looks through your specified files for URLs to modify, in the following places:
+The task looks through your specified files for URLs to rewrite, in the following places:
 
 * `<img src="____">`
 * `<script src="____"></script>`
@@ -17,7 +17,7 @@ See options below for how it modifies them.
 You should set either `base` **or** `rewriter` (not both).
 
 ### `base`
-For the standard use case, just set a `base` string for your URLs – eg, `'//cdn.example.com/'`. The cdnify task will automatically search for all **local** URLs in your files, and prefix them with this string. (It will automatically avoid adding double-slashes.)
+For the most common use case, just set a `base` string for your URLs – eg, `'//cdn.example.com/'`. The cdnify task will automatically search for all **local** URLs in your files, and prefix them with this string. (It will automatically avoid double-slashes.)
 
 Example:
 
