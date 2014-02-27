@@ -102,6 +102,18 @@ module.exports = function(grunt) {
           if (options.stylesheets)
             soup.setAttribute('link[rel=stylesheet]', 'href', rewriteURL);
 
+          // Update stylesheet icons
+          if (options.stylesheets)
+            soup.setAttribute('link[rel=icon]', 'href', rewriteURL);
+
+          // Update videos' poster
+          if (options.stylesheets)
+            soup.setAttribute('video[poster]', 'poster', rewriteURL);
+
+          // Update videos' src
+          if (options.stylesheets)
+            soup.setAttribute('source[src]', 'src', rewriteURL);
+
           // Update script URLs
           if (options.scripts)
             soup.setAttribute('script[src]', 'src', rewriteURL);
