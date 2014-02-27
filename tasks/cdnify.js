@@ -39,7 +39,9 @@ var defaults = {
   scripts: true,
   stylesheets: true,
   images: true,
-  css: true
+  css: true,
+  videos: true,
+  icons: true,
 };
 
 
@@ -101,6 +103,18 @@ module.exports = function(grunt) {
           // Update stylesheet URLs
           if (options.stylesheets)
             soup.setAttribute('link[rel=stylesheet]', 'href', rewriteURL);
+
+          // Update stylesheet icons
+          if (options.icons)
+            soup.setAttribute('link[rel=icon]', 'href', rewriteURL);
+
+          // Update videos' poster
+          if (options.videos)
+            soup.setAttribute('video[poster]', 'poster', rewriteURL);
+
+          // Update videos' src
+          if (options.videos)
+            soup.setAttribute('source[src]', 'src', rewriteURL);
 
           // Update script URLs
           if (options.scripts)
