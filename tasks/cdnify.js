@@ -36,9 +36,13 @@ function joinBaseAndPath(base, urlPath) {
 
 // Default options
 var defaults = {
-  scripts: true,
-  stylesheets: true,
-  images: true,
+  html: {
+    'img[src]': 'src',
+    'link[rel=stylesheet]': 'href',
+    'script[src]': 'src',
+    'img[ng-src]': 'ng-src',
+    'div[ng-include]': 'ng-include'
+  },
   css: true
 };
 
@@ -94,17 +98,9 @@ module.exports = function(grunt) {
           var oldHTML = grunt.file.read(srcFile),
               soup = new Soup(oldHTML);
 
-          // Update image URLs
-          if (options.images)
-            soup.setAttribute('img[src]', 'src', rewriteURL);
-
-          // Update stylesheet URLs
-          if (options.stylesheets)
-            soup.setAttribute('link[rel=stylesheet]', 'href', rewriteURL);
-
-          // Update script URLs
-          if (options.scripts)
-            soup.setAttribute('script[src]', 'src', rewriteURL);
+          for (var search in options.html) {
+            soup.setAttribute(search, options.html[search], rewriteURL);
+          }
 
           // Update the URLs in any embedded stylesheets
           if (options.css)
