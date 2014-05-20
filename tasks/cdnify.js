@@ -40,8 +40,7 @@ var defaults = {
     'img[src]': 'src',
     'link[rel=stylesheet]': 'href',
     'script[src]': 'src',
-    'img[ng-src]': 'ng-src',
-    'div[ng-include]': 'ng-include'
+    'img[ng-src]': 'ng-src'
   },
   css: true
 };
