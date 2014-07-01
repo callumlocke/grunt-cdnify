@@ -31,7 +31,7 @@ function joinBaseAndPath(base, urlPath) {
   if (urlPath[0] === '/')
     rest = rest.split('/')[0];
   // Join it all together
-  return protocol + '//' + path.normalize("" + rest + "/" + urlPath);
+  return protocol + '//' + path.normalize("" + rest + "/" + urlPath).replace(/\\/g, "/");
 }
 
 // Default options
