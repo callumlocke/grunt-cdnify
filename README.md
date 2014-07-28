@@ -21,7 +21,7 @@ For the most common use case, just set a `base` string for your URLs – eg, `'/
 
 Example:
 
-```javascript
+```js
 cdnify: {
   someTarget: {
     options: {
@@ -42,7 +42,7 @@ For more control, you can specify a custom `rewriter` function instead. In this 
 
 Example:
 
-```javascript
+```js
 cdnify: {
   someTarget: {
     options: {
@@ -59,6 +59,37 @@ cdnify: {
       src: '**/*.{css,html}',
       dest: 'dist'
     }]
+  }
+}
+```
+
+### `css` (boolean)
+Whether to modify CSS. Applies to both `*.css` files and `<style>` elements. Default: `true`.
+
+### `html` (boolean/object)
+Whether/how to modify HTML. Defaults to `true`, which will update HTML according to this standard config:
+
+```js
+{
+  'img[src]': 'src',
+  'link[rel=stylesheet]': 'href',
+  'script[src]': 'src',
+  'video[poster]': 'poster',
+  'source[src]': 'src'
+}
+```
+
+That is, any elements matching the CSS selector `img[src]` will have their `src` attributes cdnified, etc.
+
+To customise this config, you can set the `html` option to an object of custom selector:attribute pairs. These will be added to the standard set shown above – if you want to **not** use one of the standard pairs, you have to explicitly override it with `false`.
+
+For example:
+
+```js
+options: {
+  html: {
+    'img[ng-src]': 'ng-src', // cdnify angular images
+    'script[src]': false // don't cdnify script tags
   }
 }
 ```

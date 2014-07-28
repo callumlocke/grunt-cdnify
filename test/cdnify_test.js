@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var read = function (name) {
@@ -5,11 +7,11 @@ var read = function (name) {
 };
 
 exports.embed = {
-  setUp: function(done) {
+  setUp: function (done) {
     done();
   },
 
-  'Plain CSS file': function(test) {
+  'Plain CSS file': function (test) {
     var actual, expected;
     test.expect(1);
     actual = read('test/output/sample.css');
@@ -18,11 +20,20 @@ exports.embed = {
     test.done();
   },
 
-  'HTML file including embedded CSS': function(test) {
+  'HTML file including embedded CSS': function (test) {
     var actual, expected;
     test.expect(1);
     actual = read('test/output/sample.html');
     expected = read('test/expected/sample.html');
+    test.equal(actual, expected);
+    test.done();
+  },
+
+  'HTML file including embedded CSS, with custom options': function (test) {
+    var actual, expected;
+    test.expect(1);
+    actual = read('test/output/sample-custom-options.html');
+    expected = read('test/expected/sample-custom-options.html');
     test.equal(actual, expected);
     test.done();
   }

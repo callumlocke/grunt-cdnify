@@ -20,16 +20,24 @@ module.exports = function(grunt) {
     },
 
     cdnify: {
-      myTarget: {
+      options: { base: '//cdn.example.com/stuff/' },
+      defaultOptions: {
+        files: {
+          'test/output/sample.css': 'test/fixtures/sample.css',
+          'test/output/sample.html': 'test/fixtures/sample.html'
+        }
+      },
+      customOptions: {
         options: {
-          base: '//cdn.example.com/stuff/'
+          html: {
+            'img[truffles]': 'truffles',
+            'img[ng-src]': 'ng-src',
+            'img[src]': false
+          },
         },
-        files: [{
-          expand: true,
-          cwd: 'test/fixtures',
-          src: '*.{css,html}',
-          dest: 'test/output'
-        }]
+        files: {
+          'test/output/sample-custom-options.html': 'test/fixtures/sample.html'
+        }
       }
     },
 
