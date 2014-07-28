@@ -36,20 +36,34 @@ function joinBaseAndPath(base, urlPath) {
 
 // Default options
 var defaults = {
-  html: {
-    'img[src]': 'src',
-    'link[rel=stylesheet]': 'href',
-    'script[src]': 'src',
-    'img[ng-src]': 'ng-src'
-  },
+  html: true,
   css: true
 };
 
+var htmlDefaults = {
+  'img[src]': 'src',
+  'link[rel=stylesheet]': 'href',
+  'script[src]': 'src',
+  'video[poster]': 'poster',
+  'source[src]': 'src'
+};
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.registerMultiTask('cdnify', 'Converts relative URLs to absolute ones.', function() {
 
     var options = this.options(defaults);
+
+    // Handle HTML selector:attribute settings
+    if (options.html === false) options.html = {};
+    else if (options.html === true) options.html = htmlDefaults;
+    else if (typeof options.html === 'object') {
+      for (var key in htmlDefaults) {
+        if (htmlDefaults.hasOwnProperty(key) && options.html[key] == null) {
+          options.html[key] = htmlDefaults[key];
+        }
+      }
+    }
+    else throw new TypeError('Expected options.html to be boolean or object');
 
     // Establish the rewriteURL function for this task
     var rewriteURL;
@@ -98,7 +112,8 @@ module.exports = function(grunt) {
               soup = new Soup(oldHTML);
 
           for (var search in options.html) {
-            soup.setAttribute(search, options.html[search], rewriteURL);
+            var attr = options.html[search];
+            if (attr) soup.setAttribute(search, options.html[search], rewriteURL);
           }
 
           // Update the URLs in any embedded stylesheets
