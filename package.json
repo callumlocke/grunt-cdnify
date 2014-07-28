@@ -25,19 +25,19 @@
     }
   ],
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.2.0",
     "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-contrib-clean": "~0.4.0",
     "grunt": "~0.4.2",
-    "load-grunt-tasks": "~0.2.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-cli": "~0.1.11"
+    "grunt-cli": "~0.1.11",
+    "load-grunt-tasks": "~0.6.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-jshint": "~0.10.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "soup": "~0.0.8",
-    "css-url-rewriter": "0.0.1"
+    "css-url-rewriter": "0.0.1",
+    "soup": "~0.1.3"
   }
 }
