@@ -24,6 +24,8 @@ function isLocalPath(filePath, mustBeRelative) {
 }
 
 function joinBaseAndPath(base, urlPath) {
+  if (base.indexOf('//') === -1) return base + urlPath;
+
   // Split out protocol first, to avoid '//' getting normalized to '/'
   var bits = base.split('//'),
       protocol = bits[0], rest = bits[1];
