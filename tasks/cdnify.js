@@ -98,7 +98,7 @@ module.exports = function (grunt) {
         return grunt.log.warn("Source file \"" + (path.resolve(srcFile)) + "\" not found.");
       }
       else {
-        if (/.css$/.test(srcFile)) {
+        if (/\.css$/.test(srcFile)) {
           // It's a CSS file.
           var oldCSS = grunt.file.read(srcFile),
               newCSS = options.css ?
