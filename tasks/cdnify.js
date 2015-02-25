@@ -125,7 +125,10 @@ module.exports = function (grunt) {
             });
 
           // Write it to disk
-          grunt.file.write(destFile, soup.toString());
+          // grunt.file.write(destFile, soup.toString());
+          // work with all url even inside of tags as attibute
+          var newOutPut = rewriteCSSURLs(soup.toString(), rewriteURL);
+          grunt.file.write(destFile, newOutPut);
           grunt.log.ok("Wrote HTML file: \"" + destFile + "\"");
         }
       }
