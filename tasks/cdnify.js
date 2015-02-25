@@ -126,7 +126,9 @@ module.exports = function (grunt) {
         }
 
         // Write it to disk
-        grunt.file.write(destFile, soup.toString());
+        // Work with all URLs even inside of tags as attribute
+        var newOutput = rewriteCSSURLs(soup.toString(), rewriteURL);
+        grunt.file.write(destFile, newOutput);
         grunt.verbose.writeln(chalk.bold('Wrote HTML file: ') + chalk.cyan(destFile));
         filesCount.html++;
       }
