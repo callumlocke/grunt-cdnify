@@ -10,6 +10,7 @@
 
 var path = require('path'),
     Soup = require('soup'),
+    chalk = require('chalk'),
     rewriteCSSURLs = require('css-url-rewriter');
 
 
@@ -34,7 +35,7 @@ function joinBaseAndPath(base, urlPath) {
     rest = rest.split('/')[0];
   }
   // Join it all together
-  return protocol + '//' + path.posix.normalize('' + rest + '/' + urlPath);
+  return protocol + '//' + path.posix.normalize(rest + '/' + urlPath);
 }
 
 // Default options
@@ -59,6 +60,11 @@ module.exports = function (grunt) {
   grunt.registerMultiTask('cdnify', 'Converts relative URLs to absolute ones.', function() {
 
     var options = this.options(defaults);
+
+    var filesCount = {
+        css: 0,
+        html: 0
+    };
 
     // Handle HTML selector:attribute settings
     if (options.html === false) {
@@ -102,8 +108,9 @@ module.exports = function (grunt) {
         srcFile = srcFile[0];
       }
       if (!grunt.file.exists(srcFile)) {
-        return grunt.log.warn('Source file "' + path.resolve(srcFile) + '" not found.');
+        return grunt.log.warn('Source file ' + chalk.cyan(path.resolve(srcFile)) + ' not found.');
       }
+
       if (/\.css$/.test(srcFile)) {
         // It's a CSS file
         var oldCSS = grunt.file.read(srcFile),
@@ -112,7 +119,8 @@ module.exports = function (grunt) {
               oldCSS;
 
         grunt.file.write(destFile, newCSS);
-        grunt.log.ok('Wrote CSS file: "' + destFile + '"');
+        grunt.verbose.writeln(chalk.bold('Wrote CSS file: ') + chalk.cyan(destFile));
+        filesCount.css++;
       } else {
         // It's an HTML file
         var oldHTML = grunt.file.read(srcFile),
@@ -136,9 +144,18 @@ module.exports = function (grunt) {
 
         // Write it to disk
         grunt.file.write(destFile, soup.toString());
-        grunt.log.ok('Wrote HTML file: "' + destFile + '"');
+        grunt.verbose.writeln(chalk.bold('Wrote HTML file: ') + chalk.cyan(destFile));
+        filesCount.html++;
       }
 
     });
+
+    if (filesCount.css > 0) {
+      grunt.log.ok('Wrote ' + chalk.cyan(filesCount.css.toString()) + ' CSS ' + grunt.util.pluralize(filesCount.css, 'file/files'));
+    }
+    if (filesCount.html > 0) {
+      grunt.log.ok('Wrote ' + chalk.cyan(filesCount.html.toString()) + ' HTML ' + grunt.util.pluralize(filesCount.html, 'file/files'));
+    }
+
   });
 };

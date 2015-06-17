@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "chalk": "~1.1.1",
     "css-url-rewriter": "~0.1.0",
     "soup": "~0.1.3"
   },
