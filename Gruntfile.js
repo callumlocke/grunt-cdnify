@@ -11,6 +11,15 @@
 module.exports = function(grunt) {
   grunt.initConfig({
 
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      src: {
+        src: ['tasks/*.js', 'Gruntfile.js', '<%= nodeunit.tests %>']
+      }
+    },
+
     clean: {
       tests: ['test/output']
     },
@@ -53,7 +62,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('test', ['clean', 'cdnify', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'jshint', 'cdnify', 'nodeunit']);
 
   grunt.registerTask('default', ['watch']);
 };
