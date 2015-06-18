@@ -1,4 +1,4 @@
-# grunt-cdnify [![Build Status](https://secure.travis-ci.org/callumlocke/grunt-cdnify.png?branch=master)](http://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://gemnasium.com/callumlocke/grunt-cdnify.png)](https://gemnasium.com/callumlocke/grunt-cdnify)
+# grunt-cdnify [![Build Status](https://secure.travis-ci.org/callumlocke/grunt-cdnify.svg?branch=master)](http://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://gemnasium.com/callumlocke/grunt-cdnify.svg)](https://gemnasium.com/callumlocke/grunt-cdnify)
 
 > Grunt plugin for rewriting static resource URLs found in your HTML and CSS.
 
@@ -89,7 +89,7 @@ For example:
 options: {
   html: {
     'img[ng-src]': 'ng-src', // cdnify angular images
-    'script[src]': false // don't cdnify script tags
+    'script[src]': false     // don't cdnify script tags
   }
 }
 ```

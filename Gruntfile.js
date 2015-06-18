@@ -15,21 +15,27 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      src: {
-        src: ['tasks/*.js', 'Gruntfile.js', '<%= nodeunit.tests %>']
+      files: {
+        src: [
+          'tasks/*.js',
+          'Gruntfile.js',
+          '<%= nodeunit.tests %>'
+        ]
       }
     },
 
     clean: {
-      tests: ['test/output']
+      tests: 'test/output'
     },
 
     nodeunit: {
-      tests: ['test/cdnify_test.js']
+      tests: 'test/cdnify_test.js'
     },
 
     cdnify: {
-      options: { base: '//cdn.example.com/stuff/' },
+      options: {
+        base: '//cdn.example.com/stuff/'
+      },
       defaultOptions: {
         files: {
           'test/output/sample.css': 'test/fixtures/sample.css',
@@ -42,7 +48,7 @@ module.exports = function(grunt) {
             'img[truffles]': 'truffles',
             'img[ng-src]': 'ng-src',
             'img[src]': false
-          },
+          }
         },
         files: {
           'test/output/sample-custom-options.html': 'test/fixtures/sample.html'
