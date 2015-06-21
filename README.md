@@ -8,6 +8,9 @@ The task looks through your specified files for URLs to rewrite, in the followin
 * `<img src="____">`
 * `<script src="____"></script>`
 * `<link rel="stylesheet" href="____">`
+* `<link rel="icon" href="____">`
+* `<link rel="shortcut icon" href="____">`
+* `<link rel="apple-touch-icon" href="____">`
 * `background-image: url(____);` in your CSS (including inside `<style>` tags in your HTML)
 
 See options below for how it modifies them.
@@ -73,6 +76,9 @@ Whether/how to modify HTML. Defaults to `true`, which will update HTML according
 {
   'img[src]': 'src',
   'link[rel=stylesheet]': 'href',
+  'link[rel=icon]': 'href',
+  'link[rel=\'shortcut icon\']': 'href',
+  'link[rel=apple-touch-icon]': 'href',
   'script[src]': 'src',
   'video[poster]': 'poster',
   'source[src]': 'src'

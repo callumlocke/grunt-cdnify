@@ -46,6 +46,9 @@ var defaults = {
 var htmlDefaults = {
   'img[src]': 'src',
   'link[rel=stylesheet]': 'href',
+  'link[rel=icon]': 'href',
+  'link[rel=\'shortcut icon\']': 'href',
+  'link[rel=apple-touch-icon]': 'href',
   'script[src]': 'src',
   'video[poster]': 'poster',
   'source[src]': 'src'
@@ -118,7 +121,7 @@ module.exports = function (grunt) {
           if (options.html.hasOwnProperty(search)) {
             var attr = options.html[search];
             if (attr) {
-              soup.setAttribute(search, options.html[search], rewriteURL);
+              soup.setAttribute(search, attr, rewriteURL);
             }
           }
         }
