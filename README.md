@@ -6,6 +6,7 @@
 The task looks through your specified files for URLs to rewrite, in the following places:
 
 * `<img src="____">`
+* `<img data-src="____">`
 * `<script src="____"></script>`
 * `<link rel="stylesheet" href="____">`
 * `<link rel="icon" href="____">`
@@ -75,6 +76,7 @@ Whether/how to modify HTML. Defaults to `true`, which will update HTML according
 ```js
 {
   'img[src]': 'src',
+  'img[data-src]': 'src',
   'link[rel=stylesheet]': 'href',
   'link[rel=icon]': 'href',
   'link[rel=\'shortcut icon\']': 'href',

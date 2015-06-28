@@ -45,6 +45,7 @@ var defaults = {
 
 var htmlDefaults = {
   'img[src]': 'src',
+  'img[data-src]': 'data-src',
   'link[rel=stylesheet]': 'href',
   'link[rel=icon]': 'href',
   'link[rel=\'shortcut icon\']': 'href',

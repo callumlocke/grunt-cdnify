@@ -47,7 +47,8 @@ module.exports = function(grunt) {
           html: {
             'img[truffles]': 'truffles',
             'img[ng-src]': 'ng-src',
-            'img[src]': false
+            'img[src]': false,
+            'img[data-src]': false
           }
         },
         files: {
