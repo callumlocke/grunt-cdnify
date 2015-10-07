@@ -111,7 +111,31 @@ module.exports = function (grunt) {
         else {
           // It's an HTML file.
           var oldHTML = grunt.file.read(srcFile),
-              soup = new Soup(oldHTML);
+              soup = new Soup(oldHTML),
+              localScripts = [],
+              fallbackHTML;
+
+          if (destFile === 'web/rally/dist/cdn/index.html') {
+            soup.getAttribute('script', 'src', function (value, start, end) {
+              if (isLocalPath(value)) {
+                localScripts.push(value);
+              }
+            });
+          }
+
+          if (options.fallbackRequirement && localScripts.length) {
+            fallbackHTML = '<!-- CDN JS Local Fallback -->\n' +
+                '<script>\n' +
+                options.fallbackRequirement + ' || document.write(\'\' +\n';
+            for (var x = 0; x < localScripts.length; x++) {
+              fallbackHTML += '\'<script src="' + localScripts[x] + '"><\\/script>\''
+              if (x === localScripts.length - 1)
+                fallbackHTML += '\n';
+              else
+                fallbackHTML += ' +\n';
+            }
+            fallbackHTML += ');\n</script>\n';
+          }
 
           for (var search in options.html) {
             var attr = options.html[search];
@@ -123,6 +147,12 @@ module.exports = function (grunt) {
             soup.setInnerHTML('style', function (css) {
               return rewriteCSSURLs(css, rewriteURL);
             });
+
+          if (options.fallbackRequirement && fallbackHTML) {
+            soup.setInnerHTML('body', function (body) {
+              return body + fallbackHTML
+            });
+          }
 
           // Write it to disk
           grunt.file.write(destFile, soup.toString());
