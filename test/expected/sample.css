@@ -1,6 +1,8 @@
 body {
   background-image: url('//cdn.example.com/stuff/foo.jpg');
   background-image: url('//cdn.example.com/foo.jpg');
+  background-image: url('//cdn.example.com/foo/bar/test.jpg');
+  background-image: url('//cdn.example.com/foo/bar/test.jpg');
   background-image: url('//cdn.example.com/foo.jpg');
   background-image: url('//cdn.example.com/stuff/foo/bar.jpg');
 }
