@@ -23,14 +23,14 @@ function isLocalPath(filePath, mustBeRelative) {
   );
 }
 
-function joinBaseAndPath(base, urlPath) {
+function joinBaseAndPath(base, baseRoot, urlPath) {
   if (base.indexOf('//') === -1) return base + urlPath;
 
   // Split out protocol first, to avoid '//' getting normalized to '/'
   var bits = base.split('//'),
       protocol = bits[0], rest = bits[1];
   // Trim any path off if this is a domain-relative URL
-  if (urlPath[0] === '/')
+  if (urlPath[0] === '/' && !baseRoot)
     rest = rest.split('/')[0];
   // Join it all together
   return protocol + '//' + path.normalize("" + rest + "/" + urlPath);
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
     if (typeof options.base === 'string') {
       rewriteURL = function (url) {
         if (isLocalPath(url))
-          return joinBaseAndPath(options.base, url);
+          return joinBaseAndPath(options.base, options.baseRoot, url);
         return url;
       };
     }
@@ -111,7 +111,31 @@ module.exports = function (grunt) {
         else {
           // It's an HTML file.
           var oldHTML = grunt.file.read(srcFile),
-              soup = new Soup(oldHTML);
+              soup = new Soup(oldHTML),
+              localScripts = [],
+              fallbackHTML;
+
+          if (destFile === 'web/rally/dist/cdn/index.html') {
+            soup.getAttribute('script', 'src', function (value, start, end) {
+              if (isLocalPath(value)) {
+                localScripts.push(value);
+              }
+            });
+          }
+
+          if (options.fallbackRequirement && localScripts.length) {
+            fallbackHTML = '<!-- CDN JS Local Fallback -->\n' +
+                '<script>\n' +
+                options.fallbackRequirement + ' || document.write(\'\' +\n';
+            for (var x = 0; x < localScripts.length; x++) {
+              fallbackHTML += '\'<script src="' + localScripts[x] + '"><\\/script>\''
+              if (x === localScripts.length - 1)
+                fallbackHTML += '\n';
+              else
+                fallbackHTML += ' +\n';
+            }
+            fallbackHTML += ');\n</script>\n';
+          }
 
           for (var search in options.html) {
             var attr = options.html[search];
@@ -123,6 +147,12 @@ module.exports = function (grunt) {
             soup.setInnerHTML('style', function (css) {
               return rewriteCSSURLs(css, rewriteURL);
             });
+
+          if (options.fallbackRequirement && fallbackHTML) {
+            soup.setInnerHTML('body', function (body) {
+              return body + fallbackHTML
+            });
+          }
 
           // Write it to disk
           grunt.file.write(destFile, soup.toString());

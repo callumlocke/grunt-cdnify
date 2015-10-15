@@ -93,3 +93,23 @@ options: {
   }
 }
 ```
+
+### `fallbackRequirement` (string)
+If the CDN fails to load assets and you would like to include a local fallback, you can set the `fallbackRequirement` option. Its value should be a string that will 
+be evaluated as a boolean. When true, the local fallback will be used.
+
+For example:
+
+```js
+options: {
+  fallbackRequirement: 'window.angular'
+}
+```
+
+turns into:
+
+```html
+<script>
+window.angular || document.write('...');
+</script>
+```
