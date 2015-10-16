@@ -1,17 +1,16 @@
-/*
-  grunt-cdnify
-  https://github.com/callumlocke/grunt-cdnify
-
-  Copyright 2014 Callum Locke
-  Licensed under the MIT license.
-*/
+/**
+ * grunt-cdnify
+ * https://github.com/callumlocke/grunt-cdnify
+ *
+ * Copyright 2014 Callum Locke
+ * Licensed under the MIT license.
+ */
 
 'use strict';
 
 var path = require('path'),
     Soup = require('soup'),
     rewriteCSSURLs = require('css-url-rewriter');
-
 
 // Helper functions
 function isLocalPath(filePath, mustBeRelative) {
@@ -51,7 +50,7 @@ var htmlDefaults = {
 };
 
 module.exports = function (grunt) {
-  grunt.registerMultiTask('cdnify', 'Converts relative URLs to absolute ones.', function() {
+  grunt.registerMultiTask('cdnify', 'Converts relative URLs to absolute ones.', function () {
 
     var options = this.options(defaults);
 
