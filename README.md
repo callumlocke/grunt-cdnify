@@ -1,6 +1,6 @@
-# grunt-cdnify [![Build Status](https://secure.travis-ci.org/callumlocke/grunt-cdnify.svg?branch=master)](http://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://gemnasium.com/callumlocke/grunt-cdnify.svg)](https://gemnasium.com/callumlocke/grunt-cdnify)
+# grunt-cdnify [![Linux Build Status](https://img.shields.io/travis/callumlocke/grunt-cdnify/master.svg)](https://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://img.shields.io/david/callumlocke/grunt-cdnify.svg)](https://david-dm.org/callumlocke/grunt-cdnify) [![devDependency Status](https://img.shields.io/david/dev/callumlocke/grunt-cdnify.svg)](https://david-dm.org/callumlocke/grunt-cdnify#info=devDependencies)
 
-> Grunt plugin for rewriting static resource URLs found in your HTML and CSS.
+> Rewrite static resource URLs found in your HTML and CSS.
 
 ## What it does
 The task looks through your specified files for URLs to rewrite, in the following places:
@@ -15,7 +15,6 @@ The task looks through your specified files for URLs to rewrite, in the followin
 * `background-image: url(____);` in your CSS (including inside `<style>` tags in your HTML)
 
 See options below for how it modifies them.
-
 
 ## Options
 You should set either `base` **or** `rewriter` (not both).
