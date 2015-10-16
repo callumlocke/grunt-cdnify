@@ -1,6 +1,6 @@
 # grunt-cdnify [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
-> Grunt plugin for rewriting static resource URLs found in your HTML and CSS.
+> Rewrite static resource URLs found in your HTML and CSS.
 
 ## What it does
 The task looks through your specified files for URLs to rewrite, in the following places:
@@ -15,7 +15,6 @@ The task looks through your specified files for URLs to rewrite, in the followin
 * `background-image: url(____);` in your CSS (including inside `<style>` tags in your HTML)
 
 See options below for how it modifies them.
-
 
 ## Options
 You should set either `base` **or** `rewriter` (not both).
