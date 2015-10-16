@@ -3,6 +3,21 @@
   "description": "Converts local URLs to CDN ones.",
   "version": "0.1.1",
   "author": "Callum Locke (https://github.com/callumlocke)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callumlocke/grunt-cdnify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/callumlocke/grunt-cdnify/issues"
+  },
+  "homepage": "https://github.com/callumlocke/grunt-cdnify",
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
   "dependencies": {
     "chalk": "^1.1.1",
     "css-url-rewriter": "^0.1.0",
@@ -18,19 +33,13 @@
     "grunt-contrib-watch": "^0.6.1",
     "load-grunt-tasks": "^3.3.0"
   },
-  "engines": {
-    "node": ">=0.10.0"
+  "peerDependencies": {
+    "grunt": ">=0.4.0"
   },
-  "files": [
-    "tasks"
-  ],
-  "homepage": "https://github.com/callumlocke/grunt-cdnify",
   "keywords": [
     "gruntplugin"
   ],
-  "license": "MIT",
-  "repository": "callumlocke/grunt-cdnify",
-  "scripts": {
-    "test": "grunt test"
-  }
+  "files": [
+    "tasks"
+  ]
 }
