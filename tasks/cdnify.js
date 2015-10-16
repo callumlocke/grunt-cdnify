@@ -8,7 +8,7 @@
 
 'use strict';
 
-var path = require('path-posix'),
+var pathPosix = require('path-posix'),
     Soup = require('soup'),
     chalk = require('chalk'),
     rewriteCSSURLs = require('css-url-rewriter');
@@ -34,7 +34,7 @@ function joinBaseAndPath(base, urlPath) {
     rest = rest.split('/')[0];
   }
   // Join it all together
-  return protocol + '//' + path.posix.normalize(rest + '/' + urlPath);
+  return protocol + '//' + pathPosix.normalize(rest + '/' + urlPath);
 }
 
 // Default options
@@ -107,7 +107,7 @@ module.exports = function (grunt) {
         srcFile = srcFile[0];
       }
       if (!grunt.file.exists(srcFile)) {
-        return grunt.log.warn('Source file ' + chalk.cyan(path.resolve(srcFile)) + ' not found.');
+        return grunt.log.warn('Source file ' + chalk.cyan(pathPosix.resolve(srcFile)) + ' not found.');
       }
 
       if (/\.css$/.test(srcFile)) {
