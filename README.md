@@ -1,4 +1,4 @@
-# grunt-cdnify [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
+# grunt-cdnify [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devDepstat-image]][devDepstat-url]
 
 > Rewrite static resource URLs found in your HTML and CSS.
 
@@ -117,3 +117,6 @@ options: {
 
 [depstat-url]: https://david-dm.org/callumlocke/grunt-cdnify
 [depstat-image]: https://img.shields.io/david/callumlocke/grunt-cdnify.svg?style=flat-square
+
+[devDepstat-url]: https://david-dm.org/callumlocke/grunt-cdnify
+[devDepstat-image]: https://img.shields.io/david/dev/callumlocke/grunt-cdnify.svg?style=flat-square#info=devDependencies
