@@ -1,43 +1,35 @@
 {
   "name": "grunt-cdnify",
-  "version": "0.1.1",
   "description": "Converts local URLs to CDN ones.",
-  "homepage": "https://github.com/callumlocke/grunt-cdnify",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/callumlocke/grunt-cdnify.git"
+  "version": "0.1.1",
+  "author": "Callum Locke (https://github.com/callumlocke)",
+  "dependencies": {
+    "css-url-rewriter": "^0.1.0",
+    "path-posix": "^1.0.0",
+    "soup": "^0.1.3"
   },
-  "bugs": "https://github.com/callumlocke/grunt-cdnify/issues",
-  "author": {
-    "name": "Callum Locke",
-    "url": "https://github.com/callumlocke"
+  "devDependencies": {
+    "grunt": "^0.4.2",
+    "grunt-cli": "^0.1.11",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "load-grunt-tasks": "^3.3.0"
   },
-  "keywords": [
-    "gruntplugin"
-  ],
-  "main": "Gruntfile.js",
   "engines": {
     "node": ">=0.10.0"
   },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
+  "files": [
+    "tasks"
   ],
-  "devDependencies": {
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt": "~0.4.2",
-    "grunt-cli": "~0.1.11",
-    "load-grunt-tasks": "~0.6.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-contrib-jshint": "~0.10.0"
-  },
+  "homepage": "https://github.com/callumlocke/grunt-cdnify",
+  "keywords": [
+    "gruntplugin"
+  ],
+  "license": "MIT",
+  "repository": "callumlocke/grunt-cdnify",
   "scripts": {
     "test": "grunt test"
-  },
-  "dependencies": {
-    "css-url-rewriter": "~0.1.0",
-    "soup": "~0.1.3"
   }
 }
