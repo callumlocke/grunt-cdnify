@@ -8,7 +8,7 @@
 
 'use strict';
 
-var path = require('path'),
+var path = require('path-posix'),
     Soup = require('soup'),
     rewriteCSSURLs = require('css-url-rewriter');
 
