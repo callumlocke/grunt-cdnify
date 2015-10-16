@@ -11,16 +11,31 @@
 module.exports = function(grunt) {
   grunt.initConfig({
 
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      files: {
+        src: [
+          'tasks/*.js',
+          'Gruntfile.js',
+          '<%= nodeunit.tests %>'
+        ]
+      }
+    },
+
     clean: {
-      tests: ['test/output']
+      tests: 'test/output'
     },
 
     nodeunit: {
-      tests: ['test/cdnify_test.js']
+      tests: 'test/cdnify_test.js'
     },
 
     cdnify: {
-      options: { base: '//cdn.example.com/stuff/' },
+      options: {
+        base: '//cdn.example.com/stuff/'
+      },
       defaultOptions: {
         files: {
           'test/output/sample.css': 'test/fixtures/sample.css',
@@ -32,8 +47,9 @@ module.exports = function(grunt) {
           html: {
             'img[truffles]': 'truffles',
             'img[ng-src]': 'ng-src',
-            'img[src]': false
-          },
+            'img[src]': false,
+            'img[data-src]': false
+          }
         },
         files: {
           'test/output/sample-custom-options.html': 'test/fixtures/sample.html'
@@ -53,7 +69,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('test', ['clean', 'cdnify', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'jshint', 'cdnify', 'nodeunit']);
 
   grunt.registerTask('default', ['watch']);
 };

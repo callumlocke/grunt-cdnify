@@ -10,29 +10,31 @@
 
 var path = require('path-posix'),
     Soup = require('soup'),
+    chalk = require('chalk'),
     rewriteCSSURLs = require('css-url-rewriter');
 
 // Helper functions
 function isLocalPath(filePath, mustBeRelative) {
-  return (
-    typeof filePath === 'string' && filePath.length &&
-    (filePath.indexOf('//') === -1) &&
-    (filePath.indexOf('data:') !== 0) &&
-    (!mustBeRelative || filePath[0] !== '/')
-  );
+  return typeof filePath === 'string' && filePath.length &&
+    filePath.indexOf('//') === -1 &&
+    filePath.indexOf('data:') !== 0 &&
+    (!mustBeRelative || filePath[0] !== '/');
 }
 
 function joinBaseAndPath(base, urlPath) {
-  if (base.indexOf('//') === -1) return base + urlPath;
+  if (base.indexOf('//') === -1) {
+    return base + urlPath;
+  }
 
   // Split out protocol first, to avoid '//' getting normalized to '/'
   var bits = base.split('//'),
       protocol = bits[0], rest = bits[1];
   // Trim any path off if this is a domain-relative URL
-  if (urlPath[0] === '/')
+  if (urlPath[0] === '/') {
     rest = rest.split('/')[0];
+  }
   // Join it all together
-  return protocol + '//' + path.normalize("" + rest + "/" + urlPath);
+  return protocol + '//' + path.posix.normalize(rest + '/' + urlPath);
 }
 
 // Default options
@@ -43,7 +45,11 @@ var defaults = {
 
 var htmlDefaults = {
   'img[src]': 'src',
+  'img[data-src]': 'data-src',
   'link[rel=stylesheet]': 'href',
+  'link[rel=icon]': 'href',
+  'link[rel=\'shortcut icon\']': 'href',
+  'link[rel=apple-touch-icon]': 'href',
   'script[src]': 'src',
   'video[poster]': 'poster',
   'source[src]': 'src'
@@ -54,33 +60,40 @@ module.exports = function (grunt) {
 
     var options = this.options(defaults);
 
+    var filesCount = {
+        css: 0,
+        html: 0
+    };
+
     // Handle HTML selector:attribute settings
-    if (options.html === false) options.html = {};
-    else if (options.html === true) options.html = htmlDefaults;
-    else if (typeof options.html === 'object') {
+    if (options.html === false) {
+      options.html = {};
+    } else if (options.html === true) {
+      options.html = htmlDefaults;
+    } else if (typeof options.html === 'object') {
       for (var key in htmlDefaults) {
-        if (htmlDefaults.hasOwnProperty(key) && options.html[key] == null) {
-          options.html[key] = htmlDefaults[key];
+        if (htmlDefaults.hasOwnProperty(key)) {
+          if (options.html[key] === null || options.html[key] === undefined) {
+            options.html[key] = htmlDefaults[key];
+          }
         }
       }
+    } else {
+      throw new TypeError('Expected options.html to be boolean or object');
     }
-    else throw new TypeError('Expected options.html to be boolean or object');
 
     // Establish the rewriteURL function for this task
-    var rewriteURL;
+    var rewriteURL = options.rewriter;
     if (typeof options.base === 'string') {
       rewriteURL = function (url) {
-        if (isLocalPath(url))
+        if (isLocalPath(url)) {
           return joinBaseAndPath(options.base, url);
+        }
         return url;
       };
-    }
-    else if (typeof options.rewriter !== 'function') {
+    } else if (typeof options.rewriter !== 'function') {
       grunt.fatal('Please specify either a "base" string or a "rewriter" function in the task options.');
       return;
-    }
-    else {
-      rewriteURL = options.rewriter;
     }
 
     this.files.forEach(function (file) {
@@ -94,40 +107,54 @@ module.exports = function (grunt) {
         srcFile = srcFile[0];
       }
       if (!grunt.file.exists(srcFile)) {
-        return grunt.log.warn("Source file \"" + (path.resolve(srcFile)) + "\" not found.");
+        return grunt.log.warn('Source file ' + chalk.cyan(path.resolve(srcFile)) + ' not found.');
       }
-      else {
-        if (/\.css$/.test(srcFile)) {
-          // It's a CSS file.
-          var oldCSS = grunt.file.read(srcFile),
-              newCSS = options.css ?
-                rewriteCSSURLs(oldCSS, rewriteURL) :
-                oldCSS;
 
-          grunt.file.write(destFile, newCSS);
-          grunt.log.ok("Wrote CSS file: \"" + destFile + "\"");
-        }
-        else {
-          // It's an HTML file.
-          var oldHTML = grunt.file.read(srcFile),
-              soup = new Soup(oldHTML);
+      if (/\.css$/.test(srcFile)) {
+        // It's a CSS file
+        var oldCSS = grunt.file.read(srcFile),
+            newCSS = options.css ?
+              rewriteCSSURLs(oldCSS, rewriteURL) :
+              oldCSS;
 
-          for (var search in options.html) {
+        grunt.file.write(destFile, newCSS);
+        grunt.verbose.writeln(chalk.bold('Wrote CSS file: ') + chalk.cyan(destFile));
+        filesCount.css++;
+      } else {
+        // It's an HTML file
+        var oldHTML = grunt.file.read(srcFile),
+            soup = new Soup(oldHTML);
+
+        for (var search in options.html) {
+          if (options.html.hasOwnProperty(search)) {
             var attr = options.html[search];
-            if (attr) soup.setAttribute(search, options.html[search], rewriteURL);
+            if (attr) {
+              soup.setAttribute(search, attr, rewriteURL);
+            }
           }
-
-          // Update the URLs in any embedded stylesheets
-          if (options.css)
-            soup.setInnerHTML('style', function (css) {
-              return rewriteCSSURLs(css, rewriteURL);
-            });
-
-          // Write it to disk
-          grunt.file.write(destFile, soup.toString());
-          grunt.log.ok("Wrote HTML file: \"" + destFile + "\"");
         }
+
+        // Update the URLs in any embedded stylesheets
+        if (options.css) {
+          soup.setInnerHTML('style', function (css) {
+            return rewriteCSSURLs(css, rewriteURL);
+          });
+        }
+
+        // Write it to disk
+        grunt.file.write(destFile, soup.toString());
+        grunt.verbose.writeln(chalk.bold('Wrote HTML file: ') + chalk.cyan(destFile));
+        filesCount.html++;
       }
+
     });
+
+    if (filesCount.css > 0) {
+      grunt.log.ok('Wrote ' + chalk.cyan(filesCount.css.toString()) + ' CSS ' + grunt.util.pluralize(filesCount.css, 'file/files'));
+    }
+    if (filesCount.html > 0) {
+      grunt.log.ok('Wrote ' + chalk.cyan(filesCount.html.toString()) + ' HTML ' + grunt.util.pluralize(filesCount.html, 'file/files'));
+    }
+
   });
 };
