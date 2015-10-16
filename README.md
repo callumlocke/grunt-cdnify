@@ -1,4 +1,4 @@
-# grunt-cdnify [![Build Status](https://secure.travis-ci.org/callumlocke/grunt-cdnify.png?branch=master)](http://travis-ci.org/callumlocke/grunt-cdnify) [![Dependency Status](https://gemnasium.com/callumlocke/grunt-cdnify.png)](https://gemnasium.com/callumlocke/grunt-cdnify)
+# grunt-cdnify [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
 > Grunt plugin for rewriting static resource URLs found in your HTML and CSS.
 
@@ -93,3 +93,20 @@ options: {
   }
 }
 ```
+
+
+---
+
+# License
+
+[The MIT License](http://opensource.org/licenses/MIT)
+
+<!-- badge URLs -->
+[npm-url]: https://npmjs.org/package/grunt-cdnify
+[npm-image]: https://img.shields.io/npm/v/grunt-cdnify.svg?style=flat-square
+
+[travis-url]: http://travis-ci.org/callumlocke/grunt-cdnify
+[travis-image]: https://img.shields.io/travis/callumlocke/grunt-cdnify.svg?style=flat-square
+
+[depstat-url]: https://david-dm.org/callumlocke/grunt-cdnify
+[depstat-image]: https://img.shields.io/david/callumlocke/grunt-cdnify.svg?style=flat-square
