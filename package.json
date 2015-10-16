@@ -4,6 +4,7 @@
   "version": "0.1.1",
   "author": "Callum Locke (https://github.com/callumlocke)",
   "dependencies": {
+    "chalk": "^1.1.1",
     "css-url-rewriter": "^0.1.0",
     "path-posix": "^1.0.0",
     "soup": "^0.1.3"
