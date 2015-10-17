@@ -1,6 +1,6 @@
 # grunt-cdnify
 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devDepstat-image]][devDepstat-url]
+[![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url]  [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devDepstat-image]][devDepstat-url]
 
 > Rewrite static resource URLs found in your HTML and CSS.
 
@@ -115,7 +115,10 @@ options: {
 [npm-image]: https://img.shields.io/npm/v/grunt-cdnify.svg?style=flat-square
 
 [travis-url]: http://travis-ci.org/callumlocke/grunt-cdnify
-[travis-image]: https://img.shields.io/travis/callumlocke/grunt-cdnify.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/callumlocke/grunt-cdnify.svg?style=flat-square&label=Linux%20build
+
+[appveyor-url]: https://ci.appveyor.com/project/callumlocke/grunt-cdnify/branch/master
+[appveyor-image]: https://img.shields.io/appveyor/ci/callumlocke/grunt-cdnify/master.svg?style=flat-square&label=Windows%20build
 
 [depstat-url]: https://david-dm.org/callumlocke/grunt-cdnify
 [depstat-image]: https://img.shields.io/david/callumlocke/grunt-cdnify.svg?style=flat-square
