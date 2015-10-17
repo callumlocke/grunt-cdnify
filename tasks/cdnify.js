@@ -29,19 +29,19 @@ var defaults = {
 };
 
 var htmlDefaults = {
-  'img[src]': 'src',
   'img[data-src]': 'data-src',
-  'link[rel=stylesheet]': 'href',
-  'link[rel=icon]': 'href',
-  'link[rel=\'shortcut icon\']': 'href',
-  'link[rel=apple-touch-icon]': 'href',
+  'img[src]': 'src',
+  'link[rel="apple-touch-icon"]': 'href',
+  'link[rel="icon"]': 'href',
+  'link[rel="shortcut icon"]': 'href',
+  'link[rel="stylesheet"]': 'href',
   'script[src]': 'src',
-  'video[poster]': 'poster',
-  'source[src]': 'src'
+  'source[src]': 'src',
+  'video[poster]': 'poster'
 };
 
 module.exports = function (grunt) {
-  grunt.registerMultiTask('cdnify', 'Converts relative URLs to absolute ones.', function () {
+  grunt.registerMultiTask('cdnify', 'Converts local URLs to CDN ones.', function () {
 
     var options = this.options(defaults);
 
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
         }
       }
     } else {
-      throw new TypeError('Expected options.html to be boolean or object');
+      throw new TypeError('Expected `options.html` to be boolean or object');
     }
 
     // Establish the rewriteURL function for this task

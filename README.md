@@ -2,18 +2,19 @@
 
 [![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url]  [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devDepstat-image]][devDepstat-url]
 
-> Rewrite static resource URLs found in your HTML and CSS.
+> Converts local URLs to CDN ones.
 
 ## What it does
 The task looks through your specified files for URLs to rewrite, in the following places:
 
-* `<img src="____">`
 * `<img data-src="____">`
-* `<script src="____"></script>`
-* `<link rel="stylesheet" href="____">`
+* `<img src="____">`
+* `<link rel="apple-touch-icon" href="____">`
 * `<link rel="icon" href="____">`
 * `<link rel="shortcut icon" href="____">`
-* `<link rel="apple-touch-icon" href="____">`
+* `<link rel="stylesheet" href="____">`
+* `<script src="____"></script>`
+* `<source src="____"></source>`
 * `background-image: url(____);` in your CSS (including inside `<style>` tags in your HTML)
 
 See options below for how it modifies them.
