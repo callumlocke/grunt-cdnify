@@ -19,7 +19,7 @@ See options below for how it modifies them.
 ## Options
 You should set either `base` **or** `rewriter` (not both).
 
-### `base`
+### base
 For the most common use case, just set a `base` string for your URLs – eg, `'//cdn.example.com/'`. The cdnify task will automatically search for all **local** URLs in your files, and prefix them with this string. (It will automatically avoid double-slashes.)
 
 Example:
@@ -40,7 +40,7 @@ cdnify: {
 }
 ```
 
-### `rewriter`
+### rewriter
 For more control, you can specify a custom `rewriter` function instead. In this case, the task will search for **all** URLs (not just local ones) and run your function on each one. Your function should return the new value.
 
 Example:
@@ -50,10 +50,11 @@ cdnify: {
   someTarget: {
     options: {
       rewriter: function (url) {
-        if (url.indexOf('data:') === 0)
-          return url; // leave data URIs untouched
-        else
+        if (url.indexOf('data:') === 0) {
+          return url;            // leave data URIs untouched
+        } else {
           return url + '?12345'; // add query string to all other URLs
+        }
       }
     },
     files: [{
@@ -66,10 +67,10 @@ cdnify: {
 }
 ```
 
-### `css` (boolean)
+### css (boolean)
 Whether to modify CSS. Applies to both `*.css` files and `<style>` elements. Default: `true`.
 
-### `html` (boolean/object)
+### html (boolean/object)
 Whether/how to modify HTML. Defaults to `true`, which will update HTML according to this standard config:
 
 ```js
@@ -104,11 +105,10 @@ options: {
 
 ---
 
-# License
+## License
 
 [The MIT License](http://opensource.org/licenses/MIT)
 
-<!-- badge URLs -->
 [npm-url]: https://npmjs.org/package/grunt-cdnify
 [npm-image]: https://img.shields.io/npm/v/grunt-cdnify.svg?style=flat-square
 
