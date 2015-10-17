@@ -73,7 +73,7 @@ module.exports = function (grunt) {
 
     if (typeof base === 'string') {
       rewriteURL = function (origUrl) {
-        return isLocalPath(origUrl) ? url.resolve(base, origUrl) : '';
+        return isLocalPath(origUrl) ? url.resolve(base, origUrl) : origUrl;
       };
     } else if (typeof rewriteURL !== 'function') {
       grunt.fatal('Please specify either a `base` string or a `rewriter` function in the task options.');
