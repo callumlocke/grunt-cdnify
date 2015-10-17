@@ -1,6 +1,6 @@
 # grunt-cdnify
 
-[![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url]  [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devDepstat-image]][devDepstat-url]
+[![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devDepstat-image]][devDepstat-url]
 
 > Converts local URLs to CDN ones.
 
@@ -23,7 +23,9 @@ See options below for how it modifies them.
 You should set either `base` **or** `rewriter` (not both).
 
 ### base
-For the most common use case, just set a `base` string for your URLs – eg, `'//cdn.example.com/'`. The cdnify task will automatically search for all **local** URLs in your files, and prefix them with this string. (It will automatically avoid double-slashes.)
+For the most common use case, just set a `base` string for your URLs – e.g., `'//cdn.example.com/'`.
+The cdnify task will automatically search for all **local** URLs in your files, and prefix them with this string.
+(It will automatically avoid double-slashes.)
 
 Example:
 
@@ -44,7 +46,9 @@ cdnify: {
 ```
 
 ### rewriter
-For more control, you can specify a custom `rewriter` function instead. In this case, the task will search for **all** URLs (not just local ones) and run your function on each one. Your function should return the new value.
+For more control, you can specify a custom `rewriter` function instead. In this case,
+the task will search for **all** URLs (not just local ones) and run your function on each one.
+Your function should return the new value.
 
 Example:
 
@@ -78,21 +82,23 @@ Whether/how to modify HTML. Defaults to `true`, which will update HTML according
 
 ```js
 {
-  'img[src]': 'src',
   'img[data-src]': 'src',
-  'link[rel=stylesheet]': 'href',
+  'img[src]': 'src',
+  'link[rel="]': 'href',
+  'link[rel="shortcut icon"]': 'href',
   'link[rel=icon]': 'href',
-  'link[rel=\'shortcut icon\']': 'href',
-  'link[rel=apple-touch-icon]': 'href',
+  'link[rel=stylesheet]': 'href',
   'script[src]': 'src',
-  'video[poster]': 'poster',
-  'source[src]': 'src'
+  'source[src]': 'src',
+  'video[poster]': 'poster'
 }
 ```
 
 That is, any elements matching the CSS selector `img[src]` will have their `src` attributes cdnified, etc.
 
-To customise this config, you can set the `html` option to an object of custom selector:attribute pairs. These will be added to the standard set shown above – if you want to **not** use one of the standard pairs, you have to explicitly override it with `false`.
+To customise this config, you can set the `html` option to an object of custom `selector:attribute` pairs.
+These will be added to the standard set shown above – if you want to **not** use one of the standard pairs,
+you have to explicitly override it with `false`.
 
 For example:
 
