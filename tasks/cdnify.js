@@ -8,12 +8,13 @@
 
 'use strict';
 
-var pathPosix = require('path-posix'),
+var path = require('path'),
+    url = require('url'),
     Soup = require('soup'),
     chalk = require('chalk'),
     rewriteCSSURLs = require('css-url-rewriter');
 
-// Helper functions
+// Helper function
 function isLocalPath(filePath, mustBeRelative) {
   return typeof filePath === 'string' && filePath.length &&
     filePath.indexOf('//') === -1 &&
@@ -21,26 +22,10 @@ function isLocalPath(filePath, mustBeRelative) {
     (!mustBeRelative || filePath[0] !== '/');
 }
 
-function joinBaseAndPath(base, urlPath) {
-  if (base.indexOf('//') === -1) {
-    return base + urlPath;
-  }
-
-  // Split out protocol first, to avoid '//' getting normalized to '/'
-  var bits = base.split('//'),
-      protocol = bits[0], rest = bits[1];
-  // Trim any path off if this is a domain-relative URL
-  if (urlPath[0] === '/') {
-    rest = rest.split('/')[0];
-  }
-  // Join it all together
-  return protocol + '//' + pathPosix.normalize(rest + '/' + urlPath);
-}
-
 // Default options
 var defaults = {
-  html: true,
-  css: true
+    html: true,
+    css: true
 };
 
 var htmlDefaults = {
@@ -83,16 +68,15 @@ module.exports = function (grunt) {
     }
 
     // Establish the rewriteURL function for this task
-    var rewriteURL = options.rewriter;
-    if (typeof options.base === 'string') {
-      rewriteURL = function (url) {
-        if (isLocalPath(url)) {
-          return joinBaseAndPath(options.base, url);
-        }
-        return url;
+    var rewriteURL = options.rewriter,
+        base = options.base;
+
+    if (typeof base === 'string') {
+      rewriteURL = function (origUrl) {
+        return isLocalPath(origUrl) ? url.resolve(base, origUrl) : '';
       };
-    } else if (typeof options.rewriter !== 'function') {
-      grunt.fatal('Please specify either a "base" string or a "rewriter" function in the task options.');
+    } else if (typeof rewriteURL !== 'function') {
+      grunt.fatal('Please specify either a `base` string or a `rewriter` function in the task options.');
       return;
     }
 
@@ -107,7 +91,7 @@ module.exports = function (grunt) {
         srcFile = srcFile[0];
       }
       if (!grunt.file.exists(srcFile)) {
-        return grunt.log.warn('Source file ' + chalk.cyan(pathPosix.resolve(srcFile)) + ' not found.');
+        return grunt.log.warn('Source file ' + chalk.cyan(path.resolve(srcFile)) + ' not found.');
       }
 
       if (/\.css$/.test(srcFile)) {
