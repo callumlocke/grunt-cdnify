@@ -1,7 +1,7 @@
 {
   "name": "grunt-cdnify",
   "description": "Converts local URLs to CDN ones.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Callum Locke (https://github.com/callumlocke)",
   "repository": {
     "type": "git",
