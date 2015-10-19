@@ -15,11 +15,11 @@ var path = require('path'),
     rewriteCSSURLs = require('css-url-rewriter');
 
 // Helper function
-function isLocalPath(filePath, mustBeRelative) {
-  return typeof filePath === 'string' && filePath.length &&
+function isLocalPath(filePath) {
+  return typeof filePath === 'string' &&
+    filePath.length &&
     filePath.indexOf('//') === -1 &&
-    filePath.indexOf('data:') !== 0 &&
-    (!mustBeRelative || filePath[0] !== '/');
+    filePath.indexOf('data:') !== 0;
 }
 
 // Default options
@@ -58,7 +58,7 @@ module.exports = function (grunt) {
     } else if (typeof options.html === 'object') {
       for (var key in htmlDefaults) {
         if (htmlDefaults.hasOwnProperty(key)) {
-          if (options.html[key] === null || options.html[key] === undefined) {
+          if (options.html[key] === undefined) {
             options.html[key] = htmlDefaults[key];
           }
         }
