@@ -134,10 +134,10 @@ module.exports = function (grunt) {
     });
 
     if (filesCount.css > 0) {
-      grunt.log.ok('Wrote ' + chalk.cyan(filesCount.css.toString()) + ' CSS ' + grunt.util.pluralize(filesCount.css, 'file/files'));
+      grunt.verbose.or.ok('Wrote ' + chalk.cyan(filesCount.css.toString()) + ' CSS ' + grunt.util.pluralize(filesCount.css, 'file/files'));
     }
     if (filesCount.html > 0) {
-      grunt.log.ok('Wrote ' + chalk.cyan(filesCount.html.toString()) + ' HTML ' + grunt.util.pluralize(filesCount.html, 'file/files'));
+      grunt.verbose.or.ok('Wrote ' + chalk.cyan(filesCount.html.toString()) + ' HTML ' + grunt.util.pluralize(filesCount.html, 'file/files'));
     }
 
   });
