@@ -22,6 +22,26 @@ function isLocalPath(filePath) {
     filePath.indexOf('data:') !== 0;
 }
 
+function joinBaseAndPath(base, urlPath) {
+  if (base.indexOf('//') === -1) {
+    return base + urlPath;
+  }
+
+  if (urlPath.indexOf('..') === 0) {
+    urlPath = url.resolve('/', urlPath);
+  }
+
+  // Split out protocol first, to avoid '//' getting normalized to '/'
+  var bits = base.split('//'),
+      protocol = bits[0], rest = bits[1];
+  // Trim any path off if this is a domain-relative URL
+  if (urlPath[0] === '/') {    
+    rest = rest.split('/')[0];
+  }
+  // Join it all together
+  return protocol + '//' + path.normalize('' + rest + '/' + urlPath);
+}
+
 // Default options
 var defaults = {
     html: true,
@@ -73,7 +93,7 @@ module.exports = function (grunt) {
 
     if (typeof base === 'string') {
       rewriteURL = function (origUrl) {
-        return isLocalPath(origUrl) ? url.resolve(base, origUrl) : origUrl;
+        return isLocalPath(origUrl) ? joinBaseAndPath(options.base, origUrl) : origUrl;
       };
     } else if (typeof rewriteURL !== 'function') {
       grunt.fatal('Please specify either a `base` string or a `rewriter` function in the task options.');
