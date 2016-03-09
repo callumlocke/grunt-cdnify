@@ -31,5 +31,25 @@ exports.cdnify = {
     test.equal(actual, expected);
 
     test.done();
+  },
+
+  'HTML file including external CSS with custom rewriter function': function (test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('test/output/html/custom-rewriter.html');
+    var expected = grunt.file.read('test/expected/html/custom-rewriter.html');
+    test.equal(actual, expected);
+
+    test.done();
+  },
+
+  'CSS file with custom rewriter function': function (test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('test/output/css/custom-rewriter.css');
+    var expected = grunt.file.read('test/expected/css/custom-rewriter.css');
+    test.equal(actual, expected);
+
+    test.done();
   }
 };
