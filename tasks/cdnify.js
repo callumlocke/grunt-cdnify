@@ -82,7 +82,13 @@ module.exports = function (grunt) {
 
     this.files.forEach(function (file) {
       var srcFile = file.src,
-          destFile = file.dest;
+          destFile = file.dest,
+          dirname = path.dirname(srcFile),
+          rewriteURLWithDirname;
+
+      rewriteURLWithDirname = function(url) {
+        return rewriteURL(url, dirname);
+      };
 
       if (typeof srcFile !== 'string') {
         if (srcFile.length > 1) {
@@ -98,7 +104,7 @@ module.exports = function (grunt) {
         // It's a CSS file
         var oldCSS = grunt.file.read(srcFile),
             newCSS = options.css ?
-              rewriteCSSURLs(oldCSS, rewriteURL) :
+              rewriteCSSURLs(oldCSS, rewriteURLWithDirname) :
               oldCSS;
 
         grunt.file.write(destFile, newCSS);
@@ -113,7 +119,7 @@ module.exports = function (grunt) {
           if (options.html.hasOwnProperty(search)) {
             var attr = options.html[search];
             if (attr) {
-              soup.setAttribute(search, attr, rewriteURL);
+              soup.setAttribute(search, attr, rewriteURLWithDirname);
             }
           }
         }
@@ -121,7 +127,7 @@ module.exports = function (grunt) {
         // Update the URLs in any embedded stylesheets
         if (options.css) {
           soup.setInnerHTML('style', function (css) {
-            return rewriteCSSURLs(css, rewriteURL);
+            return rewriteCSSURLs(css, rewriteURLWithDirname);
           });
         }
 
