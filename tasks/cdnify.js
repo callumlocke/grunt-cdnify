@@ -85,9 +85,9 @@ module.exports = function (grunt) {
 
         return function () {
             var args = [].slice.apply(arguments);
-            args.splice(0, 0, file)
-            return rewriteURLOrigin.apply(_this, args)
-        }
+            args.splice(0, 0, file);
+            return rewriteURLOrigin.apply(_this, args);
+        };
     };
 
     this.files.forEach(function (file) {
