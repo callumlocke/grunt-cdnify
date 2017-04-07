@@ -56,7 +56,7 @@ Example:
 cdnify: {
   someTarget: {
     options: {
-      rewriter: function (url) {
+      rewriter: function (filePath, url) {
         if (url.indexOf('data:') === 0) {
           return url;            // leave data URIs untouched
         } else {
